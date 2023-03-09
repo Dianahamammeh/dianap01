@@ -42,26 +42,26 @@
                 <div class="row">
                     <div class="col">
                       <label for="">Email </label>
-                      <input type="email" name="email" class="form-control" placeholder="Enter email here.." value="{{ $clients->email}}">>
+                      <input type="email" name="email" class="form-control" placeholder="Enter email here.." value="{{ $clients->email}}">
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="col">
-                      <label for="">Passowrd</label>
-                      <input type="password" name="password" class="form-control" placeholder="Enter passowrd here.."value="{{ $clients->password}}">>
+                      <label for="">Password</label>
+                      <input type="password" name="password" class="form-control" placeholder="Enter passowrd here.."value="{{ $clients->password}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                       <label for="">Phone_Number</label>
-                      <input type="number" name="phone_number" class="form-control" placeholder="Enter phone number here.."value="{{ $clients->phone_number}}">>
+                      <input type="number" name="phone_number" class="form-control" placeholder="Enter phone number here.."value="{{ $clients->phone_number}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                       <label for="">Property</label>
-                      <input type="name" name="property" class="form-control" placeholder="Enter property here.."value="{{ $clients->Property}}">>
+                      <input type="name" name="property" class="form-control" placeholder="Enter property here.."value="{{ $clients->property}}">
                     </div>
                 </div>
                 <div class="my-2">

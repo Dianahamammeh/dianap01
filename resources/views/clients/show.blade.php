@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+@extends('layouts.index')
+ 
+@section('content')
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +20,7 @@
     }
 </style>
 </head>
-<body>
+<body> --}}
 
     <div class="d-flex justify-content-center p-2 m-2">
         <div class="card p-2 w-50">
@@ -26,7 +29,7 @@
                     <h3>Client Show</h3>
                 </div>
                 <div class="">
-                    <a href="{{ route('clients.edit',$client) }}"><button class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></a>
+                    <a href="{{ route('clients.show',$client->id) }}"><button class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></a>
                 </div>
             </div>
                     <h6> Information</h6>
@@ -55,6 +58,7 @@
             </div>
         </div>
     </div>
-</body>
+{{-- </body>
 
-</html> 
+</html>  --}}
+@endsection

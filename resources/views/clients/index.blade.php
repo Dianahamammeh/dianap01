@@ -22,49 +22,171 @@
 
                 <thead>
                     <tr>
-                        <th>#</th>
+                        {{-- <th>#</th> --}}
                         <th>Full_Name</th>
                         <th>Email</th>
-                        <th>Password</th>
+                        {{-- <th>Password</th> --}}
                         <th>Phone_Number</th>
                         <th>Property</th>
 
-                        {{-- <th>Created at</th> --}}
+                        <th>active</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                    @foreach ($clients as $client)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $client->full_name }}</td>
-                            <td>{{ $client->email }}</td>
-                            <td>{{ $client->password }}</td>
-                            <td>{{ $client->phone_number }}</td>
-                            <td>{{ $client->property }}</td>
-                            <td class="d-flex">
-                                <a class="mx-1" href="{{ route('clients.active', $client->id) }}"><button
-                                        class="btn fa fa-eye text-success"></button></a>
-                                <a class="mx-1" href="{{ route('clients.show', $client) }}"><button
-                                        class="btn fa fa-eye text-success"></button></a>
-                                <a class="mx-1" href="{{ route('clients.edit', $client->id) }}"><button
-                                        class="btn fa fa-edit text-primary"></button></a>
-                                <form action="{{ route('clients.destroy', $client) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class=" btn fa fa-trash text-danger"
-                                        onclick="return confirm('Are you sure to delete this client?')">delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                
             </table>
         </div>
     </div>
 
     @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link  href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+   
+    
+
+<script type="text/javascript">
+    $(document).ready( function () {
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+    });
+    $('#datatablecrud').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ url('clientindex') }}",
+    columns: [
+{ data: 'full_name', name: 'full_name' },
+{ data: 'email', name: 'email' },
+{ data: 'phone_number', name: 'phone_number' },
+
+{ data: 'property', name: 'property' },
+// { data: 'created_at', name: 'created_at' },
+{data: 'active', name: 'active', orderable: false},
+    {data: 'action', name: 'action', orderable: false},
+    ],
+    order: [[0, 'desc']]
+    });
+    
+    // $('body').on('click', '.delete', function () {
+    // if (confirm("Delete Record?") == true) {
+    // var id = $(this).data('id');
+    // // ajax
+    // $.ajax({
+    // type:"POST",
+    // url: "{{ url('destroypro') }}",
+    // data: { id: id},
+    // dataType: 'json',
+    // success: function(res){
+    // var oTable = $('#datatable-crud').dataTable();
+    // oTable.fnDraw(false);
+    // }
+    // });
+    // }
+    // });
+    
+    $('body').on('click', '.delete', function (event) {
+        //  $('.show_confirm').click(function(event) {
+    
+              var form =  $(this).closest("form");
+    
+              var name = $(this).data("name");
+    
+              event.preventDefault();
+    
+              swal({
+    
+                  title: `Are you sure you want to delete this record?`,
+    
+                  text: "If you delete this, it will be gone forever.",
+    
+                  icon: "warning",
+    
+                  buttons: true,
+    
+                  dangerMode: true,
+                  
+    
+              })
+    
+              .then((willDelete) => {
+    
+                if (willDelete) {
+    
+                  form.submit();
+                var id = $(this).data('id');
+                    // ajax
+                    $.ajax({
+                    type:"POST",
+                    url: "{{ url('destroyclient') }}",
+                    data: { id: id},
+                    dataType: 'json',
+                    success: function(res){
+                       
+                    var oTable = $('#datatablecrud').dataTable();
+                    oTable.fnDraw(false);
+                    table.clear().draw();
+                   
+                    }
+                    
+                    });
+    
+    
+                }
+    
+              });
+    
+          });
+    
+    
+    
+    
+    
+    $('body').on('click', '.edit', function () {
+    // if (confirm("Edit Record?") == true)
+    //  {
+    var id = $(this).data('id');
+    
+    // ajax
+    $.ajax({
+    type:"POST",
+    url: "{{ url('edit_client') }}",
+    data: { id: id},
+    
+    dataType: 'json',
+    success: function(res){
+    var oTable = $('#datatablecrud').dataTable();
+    oTable.fnDraw(false);
+    }
+    });
+    // }
+    });
+        
+    $('body').on('click', '.show', function () {
+    // if (confirm("Edit Record?") == true)
+    //  {
+    var id = $(this).data('id');
+    
+    // ajax
+    $.ajax({
+    type:"POST",
+    url: "{{ url('show_client') }}",
+    data: { id: id},
+    
+    dataType: 'json',
+    success: function(res){
+    var oTable = $('#datatablecrud').dataTable();
+    oTable.fnDraw(false);
+    }
+    });
+    // }
+    });
+    
+    });
+    
+    </script>
 
         <script src="{{ url('backend') }}/plugins/jquery/jquery.min.js"></script>
 
@@ -82,11 +204,7 @@
         <script src="{{ url('backend') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
         <script src="{{ url('backend') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="{{ url('backend') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#datatablecrud').DataTable();
-            });
-        </script>
+        
 
     @endpush
 

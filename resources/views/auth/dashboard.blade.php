@@ -1,7 +1,10 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html>
 <head>
-    <title>Laravel - ItSolutionStuff.com</title>
+    <title>Laravel - ItSolutionStuff.com</title> --}}
+    @extends('layouts.index')
+ 
+@section('content')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <style type="text/css">
         @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
@@ -74,7 +77,9 @@
     </div>
 </nav>
   
-@yield('content')
+{{-- @yield('content') --}}
+
+@endsection
      
-</body>
-</html>
+{{-- </body>
+</html> --}}

@@ -53,9 +53,11 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show($id)
     {
         //
+        $client = client::find($id);
+
         return view('clients.show', compact('client'));
     }
 
@@ -65,9 +67,11 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit($id)
     {
-        $clients = client::findOrFail($client->id);
+        // $product = Product::find($id);
+
+        $clients = client::find($id);
         return view('clients.edit', compact('clients'));        
     }
 
@@ -113,35 +117,53 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(Request $request)
     {
-        //
+        // dd($request->id);
+        Client::where('id', $request->id)->delete();
+
+        // $client->delete();
+        // return redirect()->back()
+        // ->with('success', 'Client Has Been deleted successfully');
+        return response()->json(['success' => true, 'message' => 'Client Has Been deleted successfully']);
+       // table.clear().draw();
+
+
+        // Client::where('id', $request->id)->delete();
         
-        $client->delete();
-        
-        return redirect()->route('clients.index')
-            ->with('success', 'Client Has Been deleted successfully');
+        // return redirect()->route('destroyclient')
+        //     ->with('success', 'Client Has Been deleted successfully');
+        //     return redirect()->back(); 
+
+    
     }
     public function getclients(Client $client)
     {
-        if ($request->ajax()) {
-            $data = Client::select('*');
-            return Datatables::of($data)
+        
+            if (request()->ajax()) {
+                // return datatables()->of(Product::select('*'))
+                $data = Client::select('id', 'full_name', 'email','phone_number', 'property','active');
+                return Datatables::of($data)->addIndexColumn()
                     ->addIndexColumn()
-                    ->addColumn('action', function($row){
-     
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
+                    ->addColumn('active', function($row){       
+                                if ($row->active == '0')
+                                   $btn= '<a href=' . route('clients.active', $row->id) . ' class="btn btn-primary btn-sm">Activate</a>';
+                                   else
+                                   $btn= '<a href=' . route('clients.active', $row->id) .' class="btn btn-secondary btn-sm">Deactivate</a>' ;
+                                 return $btn;  
+                      })
+                    ->addColumn('action', 'clients.action')
+                    ->rawColumns(['active', 'action'])
+                    ->addIndexColumn()
                     ->make(true);
+            }
+            return view('clients');
                     
        // $Clients = Client::sortable()->paginate(5);
         }
         
-        return view('clients');
-    }
+        // return view('clients');
+    // }
 }
 
 

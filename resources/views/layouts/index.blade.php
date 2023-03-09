@@ -9,5 +9,8 @@
 @include('admin.body.footer')
 @include('admin.body.script')
 @stack('js')
+
+{{-- @include('sweetalert::alert') --}}
+
 </body>
 </html>

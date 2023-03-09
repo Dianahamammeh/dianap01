@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
   
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,20 +18,24 @@ use App\Http\Controllers\ClientController;
 Route::get('/', function () {
     return view('auth.register');
 });
-//Route::get('login', [AuthController::class, 'index'])->name('login');
-//Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
-//Route::get('registration', [AuthController::class, 'registration'])->name('register');
-//Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
-Route::get('dashboard', [AuthController::class, 'dashboard']); 
-//Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+
 Auth::routes();
-Route::get('/main_logout', [AuthController::class, 'main_logout']); 
+
+
+//Route::post('logout', [AuthController::class, 'logout'])->name('logout'); 
+Route::middleware('auth')->group(function () {
+Route::get('clientindex', [ClientController::class, 'getclients'])->name('clientindex');
 
 
 Route::resource('clients', ClientController::class);
 
 Route::post('update_client/{id}', [ClientController::class, 'update'])->name('update_client');
 Route::get('active_client/{id}', [ClientController::class, 'active'])->name('clients.active');
+Route::post('destroyclient', [ClientController::class, 'destroy'])->name('destroyclient');
+Route::get('edit_client/{id}', [ClientController::class, 'edit'])->name('edit_client');
+Route::get('show_client/{id}', [ClientController::class, 'show'])->name('show_client');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+});
