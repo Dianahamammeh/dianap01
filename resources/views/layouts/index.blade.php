@@ -2,7 +2,12 @@
 <html lang="en">
 @include('admin.body.head')
 @include('admin.body.header')
-@include('admin.body.sidebar')
+
+@auth
+
+
+  @include('admin.body.sidebar')
+@endauth
 
   @yield('content')
 

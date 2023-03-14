@@ -29,7 +29,7 @@
                     <h3>Client Show</h3>
                 </div>
                 <div class="">
-                    <a href="{{ route('clients.show',$client->id) }}"><button class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></a>
+                    <a href="{{ route('clients.edit',$client->id) }}"><button class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></a>
                 </div>
             </div>
                     <h6> Information</h6>

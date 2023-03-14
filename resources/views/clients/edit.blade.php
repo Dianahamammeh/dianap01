@@ -23,6 +23,8 @@
 
 </head>
 <body> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <div class="d-flex justify-content-center p-2 m-2">
         <div class="card p-2 w-50">
             <div class="d-flex justify-content-between">
@@ -31,8 +33,9 @@
                 </div>
             </div>
             <hr class="my-1">
-            <form action="{{ route('update_client', $clients->id) }}" method="post">
+            <form action="{{ route('clients.update', $clients->id) }}" method="post">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <div class="col">
                       <label for="">Full_Name</label>
@@ -54,8 +57,8 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                      <label for="">Phone_Number</label>
-                      <input type="number" name="phone_number" class="form-control" placeholder="Enter phone number here.."value="{{ $clients->phone_number}}">
+                      <label for="">Phone Number</label>
+                      <input id="phone_number" type="tel" name="phone_number" class="form-control" placeholder="Enter phone number here.."value="{{ $clients->phone_number}}">
                     </div>
                 </div>
                 <div class="row">
@@ -72,5 +75,23 @@
     </div>
 {{-- </body>
 </html>  --}}
+@push('js')
+<script>
 
+var phone_number = window.intlTelInput(document.querySelector("#phone_number"), {
+  separateDialCode: true,
+  preferredCountries:["in"],
+  hiddenInput: "full",
+  utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+});
+
+$("form").submit(function() {
+  var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
+  $('#phone_number').val(full_number)
+});
+
+    
+    
+            </script>
+@endpush
 @endsection

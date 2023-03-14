@@ -12,10 +12,16 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $clients = client::all();
+        $name = $request->query('search') ;
+        if (isset($name)) {
+            $clients = Client::where('full_name', 'LIKE', '%' . $name . '%')->
+                orWhere('email', 'LIKE', '%' . $name . '%')->get();
+        } else 
+            $clients = Client::all();
+        
         return view('clients.index', compact('clients'));
     }
 
@@ -84,17 +90,28 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        // dd($request);    
+        // dd($request);  
+
+        $request->validate([
+            // 'phone_number' => 'required|regex:/^\+(?:[0-9] ?){8,14}[0-9]$/',
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]) ; 
+        // dd($client);
+
         $update = [
             "full_name"=>$request->full_name,
             "email"=>$request->email,
-            "password"=>$request->password,
+            // "password"=>$request->password,
             "phone_number"=>$request->phone_number,
             "property"=>$request->property,
+            // $phone_number = $_REQUEST['phone_number']['full'];
         ];
-        $clients = Client::findOrFail($request->id);
+        // $clients = Client::findOrFail($request->id);
+        // dd($client);
 
-        $clients->update($update);
+        $client->update($update);
         $msg = "Client Updated successful! ";
         return redirect('clients')->with('msg', $msg);
     }
