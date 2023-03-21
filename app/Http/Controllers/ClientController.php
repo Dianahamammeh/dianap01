@@ -15,14 +15,15 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         //
-        $name = $request->query('search') ;
-        if (isset($name)) {
-            $clients = Client::where('full_name', 'LIKE', '%' . $name . '%')->
-                orWhere('email', 'LIKE', '%' . $name . '%')->get();
-        } else 
+        // $name = $request->query('search') ;
+        // if (isset($name)) {
+        //     $clients = Client::where('full_name', 'LIKE', '%' . $name . '%')->
+        //         orWhere('email', 'LIKE', '%' . $name . '%')->get();
+        // } else 
             $clients = Client::all();
-        
+            // dd($clients);
         return view('clients.index', compact('clients'));
+    
     }
 
     /**
@@ -46,6 +47,7 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request);
         Client::create($request->all());
         // $msg = "New client Created successful! ";
         // return redirect('client')->with('msg', $msg);
@@ -128,6 +130,15 @@ class ClientController extends Controller
         return redirect()->back(); 
     }
 
+    // public function createRole(Request $request, Client $client)
+    // {
+    //     dd($request);
+    //     $clients = client::findorfile();
+      
+    //      return redirect()->back();
+    // }
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -159,7 +170,7 @@ class ClientController extends Controller
         
             if (request()->ajax()) {
                 // return datatables()->of(Product::select('*'))
-                $data = Client::select('id', 'full_name', 'email','phone_number', 'property','active');
+                $data = Client::select('id', 'full_name', 'email','phone_number', 'property','role_title','active');
                 return Datatables::of($data)->addIndexColumn()
                     ->addIndexColumn()
                     ->addColumn('active', function($row){       

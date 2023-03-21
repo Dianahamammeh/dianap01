@@ -24,20 +24,20 @@ Route::get('/', function () {
 Auth::routes();
 
 
-//Route::post('logout', [AuthController::class, 'logout'])->name('logout'); 
-Route::middleware('auth')->group(function () {
-    // Route::get('clientindex', [ClientController::class, 'getclients'])->name('clientindex');
-
+    Route::middleware('auth')->group(function () {
+   
+   // Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
 
     Route::resource('clients', ClientController::class);
 
     //  Route::post('update_client/{id}', [ClientController::class, 'update'])->name('update_client');
-    // Route::get('active_client/{id}', [ClientController::class, 'active'])->name('clients.active');
+    Route::get('active_client/{id}', [ClientController::class, 'active'])->name('clients.active');
     // Route::post('destroyclient', [ClientController::class, 'destroy'])->name('destroyclient');
 
     // Route::get('clients/show/{id}', [ClientController::class, 'show'])->name('clients.show');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+   Route::get('clientindex', [ClientController::class, 'getclients'])->name('getclients');
 
 });
 // Route::get('/clients/edit/{id}', [ClientController::class, 'edit'])->name('clients_edit');

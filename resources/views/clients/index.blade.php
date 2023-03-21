@@ -28,7 +28,7 @@
                         {{-- <th>Password</th> --}}
                         <th>Phone_Number</th>
                         <th>Property</th>
-
+                        <th>Role</th>
                         <th>active</th>
                         <th>Action</th>
                     </tr>
@@ -64,6 +64,7 @@
 
 { data: 'property', name: 'property' },
 // { data: 'created_at', name: 'created_at' },
+{data: 'role_title', name: 'role_title', orderable: false},
 {data: 'active', name: 'active', orderable: false},
     {data: 'action', name: 'action', orderable: false},
     ],

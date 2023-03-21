@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         
         'full_name',
@@ -15,6 +16,7 @@ class Client extends Model
         'password',
         'phone_number',
         'property',
+        'role_title',
     ];
     public $sortable =  [
         
@@ -23,6 +25,7 @@ class Client extends Model
         'password',
         'phone_number',
         'property',
+        'role_title',
     ];
 }
 

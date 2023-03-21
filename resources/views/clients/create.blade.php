@@ -56,12 +56,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelIn
                       <input type="name" name="property" class="form-control" placeholder="Enter property here..">
                     </div>
                 </div>
+                <div class="form-group">
+                  <label class="label_txt">Role: </label>
+                  <select type="text" class="form-control" name="role_title"  required>
+                    <option value="Client">Client</option>
+                    
+                    <option value="Agent">Agent</option>
+                  </select>
+            
+                </div>
                 <div class="my-2">
                     <button type="submit" class="btn btn-success w-100">Submit</button>
                 </div>
             </form>
         </div>
     </div>
+    
+     
     {{-- <script>
         const phoneInputField = document.querySelector("#phone");
         const phoneInput = window.intlTelInput(phoneInputField, {
@@ -91,6 +102,7 @@ $("input[name='phone_number[full]'").val(full_number);
 
 
         </script>
+            
 {{-- </body>
 </html>  --}}
 @endpush
